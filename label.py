@@ -8,7 +8,7 @@ def label(path, t=15):
                                 'N/A': 'sum', 'Timestamp End': 'max', 'N/A.1': 'sum', 'N/A.2': 'sum', 'N/A.3': 'sum',
                                 'N/A.4': 'sum', 'N/A.5': 'sum', 'Time_UTC_Start': 'first'})
     df2.rename(columns = {'N/A': 'Volumn', 'N/A.1': 'Quote_asset_volume', 'N/A.2': 'Number_of_trades',
-                         'N/A.3': 'Base_asset_volume', 'N/A.4': 'Quote_asset_volume'}, inplace = True)
+                         'N/A.3': 'Taker_buy_base_asset_volume', 'N/A.4': 'Taker_buy_quote_asset_volume'}, inplace = True)
     length = df2.shape[0]
     op = df2['Open'].values.reshape(length,1)
     cl = df2['Close'].values.reshape(length,1 )
