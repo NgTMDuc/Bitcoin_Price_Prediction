@@ -76,7 +76,6 @@ data_np_cpy = data_np.copy()
 label_np = data_np[:,10].copy()
 
 # MinMaxScaler for training data, we take only {steps} row before to apply MinMaxScaler() in these rows
-scaler = MinMaxScaler(feature_range=(0, 1)).fit(data_np[0:steps])
 
 for i in range(steps, data_np.shape[0]):
     if i % steps == 0:
@@ -206,7 +205,7 @@ for name_of_RNN in ["LSTM", "GRU", "RNN"]:
 
                     print(i, next_i)
                     
-                    history = model.fit(train_data_np[i:next_i, :], test_data_np[i:next_i], batch_size=32,
+                    history = model.fit(train_data_np[i:next_i-retrain_period, :], test_data_np[i:next_i-retrain_period], batch_size=32,
                                         validation_data=(train_data_np[next_i-retrain_period:next_i, :], test_data_np[next_i-retrain_period:next_i]), epochs=1000, callbacks=[callback])
 
                     a = model.predict(
@@ -247,23 +246,23 @@ for name_of_RNN in ["LSTM", "GRU", "RNN"]:
                         train_data_np[i:next_i-retrain_period, :]).reshape(-1)
                 a = model.predict(train_data_np[next_i-retrain_period:next_i, :]).reshape(-1)
 
-                threshold_down = np.quantile(b, rate)
-                threshold_up = np.quantile(b, (1-rate))
+                # threshold_down = np.quantile(b, rate)
+                # threshold_up = np.quantile(b, (1-rate))
 
                 tmp_result = 0
 
-                m,n = stats.ks_2samp(a, b)
-                if n > 0.8:
-                    threshold_down = np.quantile(b, rate)
-                    threshold_up = np.quantile(b, (1-rate))
-                m,n = stats.ks_2samp(a, b, alternative="greater")
-                if n > 0.8:
-                    threshold_down = np.quantile(b, rate)
-                    threshold_up = 1
-                m,n = stats.ks_2samp(a, b, alternative="less")
-                if n > 0.8:
-                    threshold_down = 0
-                    threshold_up = np.quantile(b, (1-rate))
+                # m,n = stats.ks_2samp(a, b)
+                # if n > 0.8:
+                #     threshold_down = np.quantile(b, rate)
+                #     threshold_up = np.quantile(b, (1-rate))
+                # m,n = stats.ks_2samp(a, b, alternative="greater")
+                # if n > 0.8:
+                #     threshold_down = np.quantile(b, rate)
+                #     threshold_up = 1
+                # m,n = stats.ks_2samp(a, b, alternative="less")
+                # if n > 0.8:
+                #     threshold_down = 0
+                #     threshold_up = np.quantile(b, (1-rate))
 
                 for model in models[:-1]:
                     a += model.predict(
