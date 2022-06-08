@@ -4,7 +4,6 @@ import numpy as np
 
 def label(path, t=15):
     df = pd.read_csv(path)
-    df = df[df.shape[0] % t:]
     df2 = df.groupby(np.arange(len(df))//t, axis=0).agg({'Timestamp': 'min', 'Open': 'first', 'High': 'max', 'Low': 'min', 'Close': 'last',
                                 'N/A': 'sum', 'Timestamp End': 'max', 'N/A.1': 'sum', 'N/A.2': 'sum', 'N/A.3': 'sum',
                                 'N/A.4': 'sum', 'N/A.5': 'sum', 'Time_UTC_Start': 'first'})

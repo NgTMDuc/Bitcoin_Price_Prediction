@@ -4,10 +4,10 @@ import pandas as pd
 
 from pandas import DataFrame
 from pandas._typing import Axes, Dtype
-from RSIndicator import RSIndicator
+from MomentumIndicator import MomentumIndicator
 
 
-class VolumnIndicator(RSIndicator):
+class VolumnIndicator(MomentumIndicator):
 
     def __init__(
         self,
@@ -29,7 +29,7 @@ class VolumnIndicator(RSIndicator):
     ) -> DataFrame:
         
         cpy_data = self.copy()
-        cpy_data["volumn_SMA"+str(days)] = cpy_data[volumn_col_name].rolling(days, closed="left").mean()
+        cpy_data["volumn_SMA"+str(days)] = cpy_data[volumn_col_name].rolling(days).mean()
         
         return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="volumn_SMA"+str(days))
     
@@ -43,11 +43,11 @@ class VolumnIndicator(RSIndicator):
     ) -> DataFrame:
         
         cpy_data = self.copy()
-        tmp_volumn_SMA_data = cpy_data[volumn_col_name].rolling(days, closed="left").mean()
+        tmp_volumn_SMA_data = cpy_data[volumn_col_name].rolling(days).mean()
         tmp_volumn_SMA_data.dropna(inplace=True)
         np_tmp_volumn_SMA_data = tmp_volumn_SMA_data.to_numpy()
         
-        lst = [pd.NA for i in range(0, len(cpy_data))]
+        lst = [pd.NA for _ in range(0, len(cpy_data))]
         lst[days] = np_tmp_volumn_SMA_data[0]
         lst[days+1] = np_tmp_volumn_SMA_data[1]
         K = 2/(days+1)

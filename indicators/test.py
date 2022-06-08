@@ -11,6 +11,6 @@ df = df_15min.iloc[int(len(df_15min)*0):, :]
 
 
 a = Feature(df.copy())
-a.MFI(inplace=True)
+a.MACD(inplace=True)
 print(a.columns)
-print(a["MFI14"].head(40))
+print(a[["MACD12-26"]].head(28))

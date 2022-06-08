@@ -1,0 +1,8 @@
+2022-06-08 15:47:55,429 INFO     Build model 2LSTM5.h5...
+2022-06-08 15:47:55,447 DEBUG    Layer lstm will use cuDNN kernels when running on GPU.
+2022-06-08 15:47:55,587 DEBUG    Layer lstm_1 will use cuDNN kernels when running on GPU.
+2022-06-08 15:47:58,460 INFO     None
+2022-06-08 15:47:58,461 INFO     Train...
+2022-06-08 15:47:58,461 INFO     Step:0/3617
+2022-06-08 15:47:58,464 DEBUG    Layer lstm_2 will use cuDNN kernels when running on GPU.
+2022-06-08 15:47:58,580 DEBUG    Layer lstm_3 will use cuDNN kernels when running on GPU.
