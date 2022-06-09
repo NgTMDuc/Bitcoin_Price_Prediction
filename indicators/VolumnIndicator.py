@@ -43,17 +43,17 @@ class VolumnIndicator(MomentumIndicator):
     ) -> DataFrame:
         
         cpy_data = self.copy()
+
         tmp_volumn_SMA_data = cpy_data[volumn_col_name].rolling(days).mean()
-        tmp_volumn_SMA_data.dropna(inplace=True)
+
         np_tmp_volumn_SMA_data = tmp_volumn_SMA_data.to_numpy()
         
         lst = [pd.NA for _ in range(0, len(cpy_data))]
-        lst[days] = np_tmp_volumn_SMA_data[0]
-        lst[days+1] = np_tmp_volumn_SMA_data[1]
+        lst[days-1] = np_tmp_volumn_SMA_data[days-1]
         K = 2/(days+1)
         
-        for i in range(days+2, len(cpy_data)):
-            lst[i] = lst[i-1]*K + lst[i-2]*(1-K)
+        for i in range(days, len(cpy_data)):
+            lst[i] = cpy_data[volumn_col_name].to_numpy()[i]*K + lst[i-1]*(1-K)
             
         cpy_data["volumn_EMA"+str(days)] = np.array(lst)
         
@@ -70,10 +70,10 @@ class VolumnIndicator(MomentumIndicator):
         
         cpy_data = self.copy()
         multipliers = np.array([day+1 for day in range(days)])
-        lst = [pd.NA for i in range(0, len(cpy_data))]
+        lst = [pd.NA for _ in range(len(cpy_data))]
         
         for i in range(days,len(cpy_data)):
-            lst[i] = sum(multipliers*cpy_data[volumn_col_name][i-days:i].to_numpy())/(days*(days+1)/2)
+            lst[i-1] = sum(multipliers*cpy_data[volumn_col_name][i-days:i])/(days*(days+1)/2)
             
         cpy_data["volumn_WMA"+str(days)] = np.array(lst)
         

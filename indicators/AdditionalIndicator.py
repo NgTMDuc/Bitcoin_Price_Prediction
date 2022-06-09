@@ -137,3 +137,18 @@ class AdditionalIndicator(PriceTransform):
                  str(days)] = cpy_data["typical_price"].rolling(days).apply(DataFrame.mad)
 
         return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="mad"+str(days))
+
+    def median(
+        self,
+        days: int,
+        inplace: bool = False,
+        closing_price_col_name: str = "Close",
+        dropna: bool = False
+    ) -> DataFrame:
+
+        cpy_data = self.copy()
+
+        cpy_data["median" +
+                 str(days)] = cpy_data[closing_price_col_name].rolling(days).median()
+
+        return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="median"+str(days))
