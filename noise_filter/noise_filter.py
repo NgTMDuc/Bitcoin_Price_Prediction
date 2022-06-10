@@ -10,10 +10,10 @@ def noise_filter(decomp_dict: dict, std_range: int=5):
     '''
     decomp_dict_copy = decomp_dict.copy()
     for col, decomp in decomp_dict_copy.items():
-        decomp = decomp.dropna()
-        std = decomp.std()
-        mean = decomp.mean()
-        decomp[decomp.values > mean + std_range * std] = np.nan
+        decomp_dropna = decomp.dropna()
+        std = decomp_dropna.std()
+        mean = decomp_dropna.mean()
+        decomp[abs(decomp.values - mean) > std_range * std] = np.nan
         decomp = decomp.fillna(method='ffill')
         decomp_dict_copy[col] = decomp
        
