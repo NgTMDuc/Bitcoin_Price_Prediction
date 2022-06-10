@@ -2,7 +2,12 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-def label(path):
+def label(path: str):
+    '''
+    Return a DataFrame from original DataFrame with time period of 1 hour, duplicated values removed
+    and NaN values filled with forward fill
+    '''
+    
     df = pd.read_csv(path, index_col="Time_UTC_Start")
     df.drop(["Timestamp", "Timestamp End", "N/A.5"], axis=1, inplace=True)
     df.rename(columns = {'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close',
