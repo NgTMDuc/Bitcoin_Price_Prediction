@@ -1,4 +1,4 @@
-Time_UTC_Start,open,high,low,close,volume,quote_asset_volume,number_of_trades,base_asset_volume,quote_asset_volume,label
+Time_UTC_Start,open,high,low,close,volumn,quote_asset_volumn,number_of_trades,base_asset_volumn,quote_asset_volumn,label
 2018-07-18 11:00:00,7403.62,7409.77,7400.74,7405.01,35.159664,260386.84830426,229.0,16.229202,120194.64777804,1.0
 2018-07-18 12:00:00,7418.02,7419.99,7416.55,7419.98,44.474849,329968.55149733,114.0,37.06121,274965.37519758,1.0
 2018-07-18 13:00:00,7435.9,7437.02,7431.0,7437.02,42.365364,314919.95781005,276.0,26.98034,200556.17111444,1.0

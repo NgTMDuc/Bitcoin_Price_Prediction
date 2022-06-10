@@ -23,7 +23,7 @@ class VolumnPriceIndicator(VolumnIndicator):
     def raw_money_flow(
         self, 
         inplace: bool=False, 
-        volumn_col_name: str="Volumn",
+        volumn_col_name: str="volumn",
         dropna: bool=False
     ) -> DataFrame:
         cpy_data = self.copy()

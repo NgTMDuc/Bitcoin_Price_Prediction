@@ -31,9 +31,9 @@ class PriceTransform(DataFrame):
     def typical_price(
         self,
         inplace: bool=False, 
-        closing_price_col_name: str="Close",
-        high_price_col_name: str="High",
-        low_price_col_name: str="Low",
+        closing_price_col_name: str="close",
+        high_price_col_name: str="high",
+        low_price_col_name: str="low",
         dropna: bool=False
     ) -> DataFrame:
         cpy_data = self.copy()
@@ -47,14 +47,14 @@ class PriceTransform(DataFrame):
     def plus_DM(
         self,
         inplace: bool=False, 
-        high_price_col_name: str="High",
+        high_price_col_name: str="high",
         dropna: bool=False
     ) -> DataFrame:
         cpy_data = self.copy()
         cpy_data["zeros"] = [0 for _ in range(len(cpy_data))]
         cpy_data["plus_DM"] = cpy_data[high_price_col_name] - cpy_data.shift(1)[high_price_col_name]
         cpy_data["plus_DM"] = cpy_data[["plus_DM", "zeros"]].max(axis=1)
-        cpy_data.drop(columns=["zeros"])
+        cpy_data.drop(columns=["zeros"], inplace=True)
 
         return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="plus_DM")
 
@@ -63,7 +63,7 @@ class PriceTransform(DataFrame):
         self,
         days: int=14,
         inplace: bool=False, 
-        high_price_col_name: str="High",
+        high_price_col_name: str="high",
         dropna: bool=False
     ) -> DataFrame:
         cpy_data = self.copy()
@@ -79,14 +79,14 @@ class PriceTransform(DataFrame):
     def minus_DM(
         self,
         inplace: bool=False, 
-        low_price_col_name: str="Low",
+        low_price_col_name: str="low",
         dropna: bool=False
     ) -> DataFrame:
         cpy_data = self.copy()
         cpy_data["zeros"] = [0 for _ in range(len(cpy_data))]
         cpy_data["minus_DM"] = cpy_data.shift(1)[low_price_col_name] - cpy_data[low_price_col_name]
         cpy_data["minus_DM"] = cpy_data[["minus_DM", "zeros"]].max(axis=1)
-        cpy_data.drop(columns=["zeros"])
+        cpy_data.drop(columns=["zeros"], inplace=True)
 
         return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="minus_DM")
 
@@ -95,7 +95,7 @@ class PriceTransform(DataFrame):
         self,
         days: int=14,
         inplace: bool=False, 
-        low_price_col_name: str="Low",
+        low_price_col_name: str="low",
         dropna: bool=False
     ) -> DataFrame:
         cpy_data = self.copy()
@@ -111,9 +111,9 @@ class PriceTransform(DataFrame):
     def TR(
         self,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
-        high_price_col_name: str = "High",
-        low_price_col_name: str = "Low",
+        closing_price_col_name: str = "close",
+        high_price_col_name: str = "high",
+        low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
         cpy_data = self.copy()

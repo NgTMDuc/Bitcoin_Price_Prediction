@@ -24,7 +24,7 @@ class VolumnIndicator(MomentumIndicator):
         self, 
         days: int, 
         inplace: bool=False, 
-        volumn_col_name: str="Volumn",
+        volumn_col_name: str="volumn",
         dropna: bool=False
     ) -> DataFrame:
         
@@ -38,7 +38,7 @@ class VolumnIndicator(MomentumIndicator):
         self, 
         days: int, 
         inplace: bool=False, 
-        volumn_col_name: str="Volumn",
+        volumn_col_name: str="volumn",
         dropna: bool=False
     ) -> DataFrame:
         
@@ -64,7 +64,7 @@ class VolumnIndicator(MomentumIndicator):
         self, 
         days: int, 
         inplace: bool=False, 
-        volumn_col_name: str="Volumn",
+        volumn_col_name: str="volumn",
         dropna: bool=False
     ) -> DataFrame:
         

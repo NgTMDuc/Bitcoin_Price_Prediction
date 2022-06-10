@@ -24,7 +24,7 @@ class MAIndicator(AdditionalIndicator):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -39,7 +39,7 @@ class MAIndicator(AdditionalIndicator):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         
@@ -66,7 +66,7 @@ class MAIndicator(AdditionalIndicator):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
