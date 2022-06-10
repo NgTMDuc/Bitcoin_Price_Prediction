@@ -1,0 +1,1 @@
+Run python -m test.test_seasonal_decompose in the seasonal_decompose folder cmd to run test.py
