@@ -26,7 +26,7 @@ class MomentumIndicator(MAIndicator):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -48,7 +48,7 @@ class MomentumIndicator(MAIndicator):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -65,7 +65,7 @@ class MomentumIndicator(MAIndicator):
         first_period_EMA: int = 12,
         second_period_EMA: int = 26,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -84,8 +84,8 @@ class MomentumIndicator(MAIndicator):
         self,
         days: int = 14,
         inplace: bool = False,
-        high_price_col_name: str = "High",
-        low_price_col_name: str = "Low",
+        high_price_col_name: str = "high",
+        low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -106,8 +106,8 @@ class MomentumIndicator(MAIndicator):
         self,
         days: int = 14,
         inplace: bool = False,
-        high_price_col_name: str = "High",
-        low_price_col_name: str = "Low",
+        high_price_col_name: str = "high",
+        low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -133,10 +133,10 @@ class MomentumIndicator(MAIndicator):
         self,
         days: int = 14,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
-        opening_price_col_name: str = "Open",
-        high_price_col_name: str = "High",
-        low_price_col_name: str = "Low",
+        closing_price_col_name: str = "close",
+        opening_price_col_name: str = "open",
+        high_price_col_name: str = "high",
+        low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -156,9 +156,9 @@ class MomentumIndicator(MAIndicator):
         self,
         days: int = 14,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
-        high_price_col_name: str = "High",
-        low_price_col_name: str = "Low",
+        closing_price_col_name: str = "close",
+        high_price_col_name: str = "high",
+        low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -177,7 +177,7 @@ class MomentumIndicator(MAIndicator):
         first_period_EMA: int = 12,
         second_period_EMA: int = 26,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 

@@ -24,7 +24,7 @@ class AdditionalIndicator(PriceTransform):
     def price_up(
         self,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -43,7 +43,7 @@ class AdditionalIndicator(PriceTransform):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -58,7 +58,7 @@ class AdditionalIndicator(PriceTransform):
     def price_down(
         self,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -77,7 +77,7 @@ class AdditionalIndicator(PriceTransform):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -92,7 +92,7 @@ class AdditionalIndicator(PriceTransform):
     def price_diff(
         self,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -107,15 +107,16 @@ class AdditionalIndicator(PriceTransform):
     def std(
         self,
         days: int,
+        ddof: int=0,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
         cpy_data = self.copy()
 
         cpy_data["std" +
-                 str(days)] = cpy_data[closing_price_col_name].rolling(days).std()
+                 str(days)] = cpy_data[closing_price_col_name].rolling(days).std(ddof=ddof)
 
         return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="std"+str(days))
 
@@ -123,9 +124,9 @@ class AdditionalIndicator(PriceTransform):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
-        high_price_col_name: str = "High",
-        low_price_col_name: str = "Low",
+        closing_price_col_name: str = "close",
+        high_price_col_name: str = "high",
+        low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
 
@@ -142,7 +143,7 @@ class AdditionalIndicator(PriceTransform):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "Close",
+        closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
 
