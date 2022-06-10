@@ -1,8 +1,8 @@
 from pandas._typing import Axes, Dtype
-from VolumnPriceIndicator import VolumnPriceIndicator
+from VolumePriceIndicator import VolumePriceIndicator
 
 
-class Feature(VolumnPriceIndicator):
+class Feature(VolumePriceIndicator):
 
     def __init__(
         self,

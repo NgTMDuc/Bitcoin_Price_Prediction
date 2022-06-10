@@ -1,5 +1,3 @@
-from calendar import c
-from matplotlib.pyplot import close
 from pandas import DataFrame
 from MAIndicator import MAIndicator
 from pandas._typing import Axes, Dtype
@@ -39,8 +37,8 @@ class MomentumIndicator(MAIndicator):
             MomentumIndicator(cpy_data).price_down_SMA(days=days, inplace=False,
                                                        closing_price_col_name=closing_price_col_name)["price_down_SMA"+str(days)]
 
-        # 1e-6 is used for avoiding zero division
-        cpy_data["RS"+str(days)] = price_up_data / (1e-6 - price_down_data)
+        # 1e-10 is used for avoiding zero division
+        cpy_data["RS"+str(days)] = price_up_data / (1e-10 - price_down_data)
 
         return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="RS"+str(days))
 
@@ -93,12 +91,13 @@ class MomentumIndicator(MAIndicator):
 
         cpy_data["ATR"+str(days)] = MomentumIndicator(
             cpy_data).ATR(days=days, inplace=True)["ATR"+str(days)]
+            
         cpy_data["plus_DI"+str(days)] = 100 * MomentumIndicator(cpy_data).smoothed_plus_DM(days=days, inplace=True,
                                                                                            high_price_col_name=high_price_col_name)["smoothed_plus_DM"+str(days)] / cpy_data["ATR"+str(days)]
         cpy_data["minus_DI"+str(days)] = 100 * MomentumIndicator(cpy_data).smoothed_minus_DM(days=days, inplace=True,
                                                                                              low_price_col_name=low_price_col_name)["smoothed_minus_DM"+str(days)] / cpy_data["ATR"+str(days)]
         cpy_data["DX"+str(days)] = 100 * abs((cpy_data["plus_DI"+str(days)] - cpy_data["minus_DI" +
-                                                                                       str(days)])/(cpy_data["plus_DI"+str(days)] + cpy_data["minus_DI"+str(days)]))
+                                                                                       str(days)])/(1e-10 + cpy_data["plus_DI"+str(days)] + cpy_data["minus_DI"+str(days)]))
 
         return self.return_df(cpy_data=cpy_data, dropna=dropna, inplace=inplace, drop_col_name="DX"+str(days))
 
@@ -117,13 +116,11 @@ class MomentumIndicator(MAIndicator):
                                                                   high_price_col_name=high_price_col_name, low_price_col_name=low_price_col_name)["DX"+str(days)]
 
         lst = [pd.NA for _ in range(len(cpy_data))]
-        lst[days*2] = cpy_data["DX"+str(days)].to_numpy()[days:days*2].mean()
-        lst[days*2+1] = cpy_data["DX" +
-                                 str(days)].to_numpy()[days+1:days*2+1].mean()
+        lst[days*2-2] = cpy_data["DX"+str(days)].to_numpy()[days-1:days*2-1].mean()
 
-        for i in range(days*2+2, len(cpy_data)):
-            lst[i] = (cpy_data["DX"+str(days)].to_numpy()[i-2] *
-                      (days-1) + cpy_data["DX"+str(days)].to_numpy()[i-1])/days
+
+        for i in range(days*2-1, len(cpy_data)):
+            lst[i] = (lst[i-1]*(days-1) + cpy_data["DX"+str(days)].to_numpy()[i])/days
 
         cpy_data["ADX"+str(days)] = np.array(lst)
 
@@ -166,7 +163,7 @@ class MomentumIndicator(MAIndicator):
         cpy_data = MomentumIndicator(cpy_data).typical_price(closing_price_col_name=closing_price_col_name,
                                                              high_price_col_name=high_price_col_name, low_price_col_name=low_price_col_name, inplace=True)
 
-        cpy_data["CCI"+str(days)] = (cpy_data["typical_price"] - cpy_data["typical_price"].rolling(days).mean()) / (
+        cpy_data["CCI"+str(days)] = (cpy_data["typical_price"] - cpy_data["typical_price"].rolling(days).mean()) / (1e-10 +
             0.015 * MomentumIndicator(cpy_data).mad(days=days, closing_price_col_name=closing_price_col_name)["mad"+str(days)])
         cpy_data.drop(columns=["typical_price"])
 

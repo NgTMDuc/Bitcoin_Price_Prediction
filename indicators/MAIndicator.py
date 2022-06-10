@@ -74,7 +74,7 @@ class MAIndicator(AdditionalIndicator):
         multipliers = np.array([day+1 for day in range(days)])
         lst = [pd.NA for _ in range(len(cpy_data))]
 
-        for i in range(days, len(cpy_data)):
+        for i in range(days, len(cpy_data)+1):
             lst[i-1] = (multipliers*cpy_data[closing_price_col_name][i-days:i]).sum()/(days*(days+1)/2)
 
         cpy_data["price_WMA"+str(days)] = np.array(lst)
