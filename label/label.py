@@ -13,8 +13,8 @@ def label(path):
     df.index = pd.to_datetime(df.index)
     df = df.asfreq('H').fillna(method = 'ffill')
     length = df.shape[0]
-    op = df['Open'].values.reshape(length,1)
-    cl = df['Close'].values.reshape(length,1 )
+    op = df['open'].values.reshape(length,1)
+    cl = df['close'].values.reshape(length,1 )
     label = np.ones((length, 1)) * (op < cl)
     df['label'] = label
     
