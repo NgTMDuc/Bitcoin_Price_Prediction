@@ -18,5 +18,6 @@ def data_normalization(df: DataFrame, range: int=20, include_cur_row: bool=False
         df_roll = df.rolling(range)
         
     res_df = (df - df_roll.mean()) / df_roll.std()
+    res_df.replace([np.inf, -np.inf], 0, inplace=True)
 
     return res_df
