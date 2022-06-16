@@ -3,7 +3,10 @@ from VolumePriceIndicator import VolumePriceIndicator
 
 
 class Feature(VolumePriceIndicator):
-
+    """
+    This class is used for creating a Feature object, which deeply inherited from DataFrame object.
+    """
+    
     def __init__(
         self,
         data=None,

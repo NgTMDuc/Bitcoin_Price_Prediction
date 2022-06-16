@@ -8,9 +8,9 @@ from AdditionalIndicator import AdditionalIndicator
 
 
 class MAIndicator(AdditionalIndicator):
-    '''
-    This class provides some moving average indicators for price
-    '''
+    """
+    This class provides some moving average indicators for price.
+    """
 
     def __init__(
         self,
@@ -29,6 +29,24 @@ class MAIndicator(AdditionalIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
+        """
+        Return the price difference of the current row and the previous row
+
+        Parameters
+        ----------
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'price_diff' colume
+        """
+        
         '''
         Smoothed Moving Average of the price in n days from the current day
         '''

@@ -123,7 +123,6 @@ class MomentumIndicator(MAIndicator):
                                                                                              low_price_col_name=low_price_col_name)["smoothed_minus_DM"+str(days)] / cp_data["ATR"+str(days)]
         cp_data["DX"+str(days)] = 100 * abs((cp_data["plus_DI"+str(days)] - cp_data["minus_DI" +
                                                                                        str(days)])/(1e-10 + cp_data["plus_DI"+str(days)] + cp_data["minus_DI"+str(days)]))
-
         return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="DX"+str(days))
 
 

@@ -7,9 +7,10 @@ from PriceTransform import PriceTransform
 
 
 class AdditionalIndicator(PriceTransform):
-    '''
+    """
     This class provides some useful indicators for others main indicators
-    '''
+    """
+
     def __init__(
         self,
         data=None,
@@ -27,10 +28,25 @@ class AdditionalIndicator(PriceTransform):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the difference between the current price and the previous price if
-        the current price is greater than the previous price
-        '''
+        """
+        Return the original dataframe with a new colume which is the difference between the current price 
+        and the previous price if the current price is greater than the previous price.
+
+        Parameters
+        ----------
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'price_up' colume
+        """
+
         cp_data = self.copy()
 
         c = pd.DataFrame({
@@ -50,9 +66,26 @@ class AdditionalIndicator(PriceTransform):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the SMA of price_up
-        '''
+        """
+        Return the original dataframe with a new colume which is the SMA of price_up.
+
+        Parameters
+        ----------
+        days : int
+            the days included in mean calculating.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'price_up_SMA + str(days)' colume
+        """
+
         cp_data = self.copy()
         cp_price_up_data = AdditionalIndicator(cp_data).price_up(
             inplace=False, closing_price_col_name=closing_price_col_name)["price_up"]
@@ -68,10 +101,25 @@ class AdditionalIndicator(PriceTransform):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the difference between the current price and the previous price if
-        the current price is greater than the previous price
-        '''
+        """
+        Return the original dataframe with a new colume which is the difference between the 
+        current price and the previous price if the current price is less than the previous price.
+
+        Parameters
+        ----------
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'price_down' colume
+        """
+
         cp_data = self.copy()
 
         c = pd.DataFrame({
@@ -91,9 +139,26 @@ class AdditionalIndicator(PriceTransform):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the SMA of price_down
-        '''
+        """
+        Return the original dataframe with a new colume which is the SMA of price_down.
+
+        Parameters
+        ----------
+        days : int
+            the days included in mean calculating.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'price_down_SMA + str(days)' colume
+        """
+
         cp_data = self.copy()
         cp_price_down_data = AdditionalIndicator(cp_data).price_down(
             inplace=False, closing_price_col_name=closing_price_col_name)["price_down"]
@@ -109,9 +174,25 @@ class AdditionalIndicator(PriceTransform):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the price difference
-        '''
+        """
+        Return the original dataframe with a new colume which is the price difference of 
+        the current row and the previous row
+
+        Parameters
+        ----------
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'price_diff' colume
+        """
+
         cp_data = self.copy()
 
         cp_data["price_diff"] = AdditionalIndicator(cp_data).price_down(inplace=inplace, closing_price_col_name=closing_price_col_name)["price_down"] \
@@ -129,9 +210,31 @@ class AdditionalIndicator(PriceTransform):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the standard deviation of the price in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the standard deviation 
+        of the price in n days from the current day.
+
+        Parameters
+        ----------
+        days : int
+            the days included in mean calculating.
+        ddof : int, default 0
+            Delta Degrees of Freedom. The divisor used in calculations is N - ddof,
+            where N represents the number of elements. Do not change this value if
+            you don't know how to use it, read pandas readme for more precise.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'std + str(days)' colume
+        """
+
         cp_data = self.copy()
 
         cp_data["std" +
@@ -149,9 +252,31 @@ class AdditionalIndicator(PriceTransform):
         low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the mean absolute deviation of the price in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the mean absolute deviation 
+        of the price in n days from the current day.
+
+        Parameters
+        ----------
+        days : int
+            the days included in mean calculating.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        high_price_col_name : str, default 'high'
+            the colume name of the high price feature.
+        low_price_col_name : str, default 'low'
+            the colume name of the low price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'std + str(days)' colume
+        """
+
         cp_data = self.copy()
 
         cp_data["typical_price"] = AdditionalIndicator(cp_data).typical_price(
@@ -169,9 +294,27 @@ class AdditionalIndicator(PriceTransform):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Return the median of the price in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the median of 
+        the price in n days from the current day.
+
+        Parameters
+        ----------
+        days : int
+            the days included in mean calculating.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'median + str(days)' colume
+        """
+
         cp_data = self.copy()
 
         cp_data["median" +
