@@ -44,12 +44,8 @@ class MAIndicator(AdditionalIndicator):
         Returns
         -------
         DataFrame
-            a dataframe including 'price_diff' colume
+            a dataframe including '"price_SMA"+str(days)' colume
         """
-        
-        '''
-        Smoothed Moving Average of the price in n days from the current day
-        '''
 
         cpy_data = self.copy()
         cpy_data["price_SMA" +
@@ -65,9 +61,25 @@ class MAIndicator(AdditionalIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Exponential Moving Average of the price in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the Exponential Moving Average of 
+        the price in n days from the current day
+
+        Parameters
+        ----------
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including '"price_EMA"+str(days)' colume
+        """
+
         cpy_data = self.copy()
 
         tmp_price_SMA_data = cpy_data[closing_price_col_name].rolling(
@@ -94,9 +106,25 @@ class MAIndicator(AdditionalIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        Weighted Moving Average of the price in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the Weighted Moving Average
+        of the price in n days from the current day
+
+        Parameters
+        ----------
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including '"price_WMA"+str(days)' colume
+        """
+
         cpy_data = self.copy()
         multipliers = np.array([day+1 for day in range(days)])
         lst = [pd.NA for _ in range(len(cpy_data))]
