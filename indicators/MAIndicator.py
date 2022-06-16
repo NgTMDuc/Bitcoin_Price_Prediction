@@ -8,6 +8,9 @@ from AdditionalIndicator import AdditionalIndicator
 
 
 class MAIndicator(AdditionalIndicator):
+    '''
+    This class provides some moving average indicators for price
+    '''
 
     def __init__(
         self,
@@ -19,7 +22,6 @@ class MAIndicator(AdditionalIndicator):
     ) -> None:
         super().__init__(data, index, columns, dtype, copy)
 
-    # Moving Average
     def price_SMA(
         self,
         days: int,
@@ -27,6 +29,9 @@ class MAIndicator(AdditionalIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
+        '''
+        Smoothed Moving Average of the price in n days from the current day
+        '''
 
         cpy_data = self.copy()
         cpy_data["price_SMA" +
@@ -42,7 +47,9 @@ class MAIndicator(AdditionalIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        
+        '''
+        Exponential Moving Average of the price in n days from the current day
+        '''
         cpy_data = self.copy()
 
         tmp_price_SMA_data = cpy_data[closing_price_col_name].rolling(
@@ -69,7 +76,9 @@ class MAIndicator(AdditionalIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-
+        '''
+        Weighted Moving Average of the price in n days from the current day
+        '''
         cpy_data = self.copy()
         multipliers = np.array([day+1 for day in range(days)])
         lst = [pd.NA for _ in range(len(cpy_data))]
