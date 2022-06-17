@@ -25,7 +25,7 @@ class AdditionalIndicator(PriceTransform):
     def price_up(
         self,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -36,34 +36,34 @@ class AdditionalIndicator(PriceTransform):
         ----------
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'price_up' colume
+            a dataframe including '[price_col_name]_price_up' colume
         """
 
         cp_data = self.copy()
 
         c = pd.DataFrame({
-            "Diff": self[closing_price_col_name] - self[closing_price_col_name].shift(1),
+            "Diff": self[price_col_name] - self[price_col_name].shift(1),
             "Zero": [0 for i in np.arange(len(self))]
         })
 
-        cp_data["price_up"] = c.max(axis=1)
+        cp_data[price_col_name+"_price_up"] = c.max(axis=1)
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="price_up")
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_price_up")
 
 
     def price_up_SMA(
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -75,30 +75,29 @@ class AdditionalIndicator(PriceTransform):
             the number of days included in price_up's mean calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'price_up_SMA + str(days)' colume
+            a dataframe including '[price_col_name]_price_up_SMA[days]' colume
         """
 
         cp_data = self.copy()
         cp_price_up_data = AdditionalIndicator(cp_data).price_up(
-            inplace=False, closing_price_col_name=closing_price_col_name)["price_up"]
-        cp_data["price_up_SMA" +
-                 str(days)] = cp_price_up_data.rolling(days).mean()
+            inplace=False, price_col_name=price_col_name)[price_col_name+"_price_up"]
+        cp_data[price_col_name+"_price_up_SMA"+str(days)] = cp_price_up_data.rolling(days).mean()
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="price_up_SMA"+str(days))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_price_up_SMA"+str(days))
 
 
     def price_down(
         self,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -109,34 +108,34 @@ class AdditionalIndicator(PriceTransform):
         ----------
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'price_down' colume
+            a dataframe including '[price_col_name]_price_down' colume
         """
 
         cp_data = self.copy()
 
         c = pd.DataFrame({
-            "Diff": self[closing_price_col_name] - self[closing_price_col_name].shift(1),
+            "Diff": self[price_col_name] - self[price_col_name].shift(1),
             "Zero": [0 for i in np.arange(len(self))]
         })
 
-        cp_data["price_down"] = c.min(axis=1)
+        cp_data[price_col_name+"_price_down"] = c.min(axis=1)
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="price_down")
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_price_down")
 
 
     def price_down_SMA(
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -148,30 +147,29 @@ class AdditionalIndicator(PriceTransform):
             the number of days included in price_down's mean calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'price_down_SMA + str(days)' colume
+            a dataframe including '[price_col_name]_price_down_SMA[days]' colume
         """
 
         cp_data = self.copy()
         cp_price_down_data = AdditionalIndicator(cp_data).price_down(
-            inplace=False, closing_price_col_name=closing_price_col_name)["price_down"]
-        cp_data["price_down_SMA" +
-                 str(days)] = cp_price_down_data.rolling(days).mean()
+            inplace=False, price_col_name=price_col_name)[price_col_name+"_price_down"]
+        cp_data[price_col_name+"_price_down_SMA"+str(days)] = cp_price_down_data.rolling(days).mean()
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="price_down_SMA"+str(days))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_price_down_SMA"+str(days))
 
 
     def price_diff(
         self,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -182,24 +180,24 @@ class AdditionalIndicator(PriceTransform):
         ----------
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'price_diff' colume
+            a dataframe including '[price_col_name]_price_diff' colume
         """
 
         cp_data = self.copy()
 
-        cp_data["price_diff"] = AdditionalIndicator(cp_data).price_down(inplace=inplace, closing_price_col_name=closing_price_col_name)["price_down"] \
+        cp_data[price_col_name+"_price_diff"] = AdditionalIndicator(cp_data).price_down(inplace=inplace, price_col_name=price_col_name)[price_col_name+"_price_down"] \
             + AdditionalIndicator(cp_data).price_up(inplace=inplace,
-                                                     closing_price_col_name=closing_price_col_name)["price_up"]
+                                                     price_col_name=price_col_name)[price_col_name+"_price_up"]
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="price_diff")
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_price_diff")
 
 
     def std(
@@ -207,7 +205,7 @@ class AdditionalIndicator(PriceTransform):
         days: int,
         ddof: int=0,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -224,23 +222,22 @@ class AdditionalIndicator(PriceTransform):
             you don't know how to use it, read pandas readme for more precise.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'std + str(days)' colume
+            a dataframe including '[price_col_name]_std[days]' colume
         """
 
         cp_data = self.copy()
 
-        cp_data["std" +
-                 str(days)] = cp_data[closing_price_col_name].rolling(days).std(ddof=ddof)
+        cp_data[price_col_name+"_std"+str(days)] = cp_data[price_col_name].rolling(days).std(ddof=ddof)
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="std"+str(days))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_std"+str(days))
 
 
     def mad(
@@ -274,15 +271,14 @@ class AdditionalIndicator(PriceTransform):
         Returns
         -------
         DataFrame
-            a dataframe including 'mad + str(days)' colume
+            a dataframe including 'mad[days]' colume
         """
 
         cp_data = self.copy()
 
         cp_data["typical_price"] = AdditionalIndicator(cp_data).typical_price(
             inplace=True, closing_price_col_name=closing_price_col_name, high_price_col_name=high_price_col_name, low_price_col_name=low_price_col_name)["typical_price"]
-        cp_data["mad" +
-                 str(days)] = cp_data["typical_price"].rolling(days).apply(DataFrame.mad)
+        cp_data["mad"+str(days)] = cp_data["typical_price"].rolling(days).apply(DataFrame.mad)
 
         return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="mad"+str(days))
 
@@ -291,7 +287,7 @@ class AdditionalIndicator(PriceTransform):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -304,20 +300,19 @@ class AdditionalIndicator(PriceTransform):
             the number of days included in median calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'median + str(days)' colume
+            a dataframe including '[price_col_name]_median[days]' colume
         """
 
         cp_data = self.copy()
 
-        cp_data["median" +
-                 str(days)] = cp_data[closing_price_col_name].rolling(days).median()
+        cp_data[price_col_name+"_median"+str(days)] = cp_data[price_col_name].rolling(days).median()
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="median"+str(days))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_median"+str(days))
