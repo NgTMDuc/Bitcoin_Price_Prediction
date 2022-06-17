@@ -72,7 +72,7 @@ class AdditionalIndicator(PriceTransform):
         Parameters
         ----------
         days : int
-            the days included in mean calculating.
+            the number of days included in price_up's mean calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
         closing_price_col_name : str, default 'close'
@@ -145,7 +145,7 @@ class AdditionalIndicator(PriceTransform):
         Parameters
         ----------
         days : int
-            the days included in mean calculating.
+            the number of days included in price_down's mean calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
         closing_price_col_name : str, default 'close'
@@ -217,7 +217,7 @@ class AdditionalIndicator(PriceTransform):
         Parameters
         ----------
         days : int
-            the days included in mean calculating.
+            the number of days included in standard deviation calculation.
         ddof : int, default 0
             Delta Degrees of Freedom. The divisor used in calculations is N - ddof,
             where N represents the number of elements. Do not change this value if
@@ -259,7 +259,7 @@ class AdditionalIndicator(PriceTransform):
         Parameters
         ----------
         days : int
-            the days included in mean calculating.
+            the number of days included in mad calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
         closing_price_col_name : str, default 'close'
@@ -274,7 +274,7 @@ class AdditionalIndicator(PriceTransform):
         Returns
         -------
         DataFrame
-            a dataframe including 'std + str(days)' colume
+            a dataframe including 'mad + str(days)' colume
         """
 
         cp_data = self.copy()
@@ -301,7 +301,7 @@ class AdditionalIndicator(PriceTransform):
         Parameters
         ----------
         days : int
-            the days included in mean calculating.
+            the number of days included in median calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
         closing_price_col_name : str, default 'close'

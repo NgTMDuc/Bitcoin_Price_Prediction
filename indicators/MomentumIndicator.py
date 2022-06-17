@@ -8,10 +8,11 @@ import pandas as pd
 
 
 class MomentumIndicator(MAIndicator):
-    '''
+    """
     This class provide momentrum indicators, which are technical analysis tools 
     used to determine the strength or weakness of a stock's price
-    '''
+    """
+    
     def __init__(
         self,
         data=None,
@@ -30,12 +31,33 @@ class MomentumIndicator(MAIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
-        RS (relative strength) is an indicator used for RSI (relative strenght index)
-        The RS is a measure of the price trend of a stock compared to its benchmark index or sectoral 
-        index whereas Relative Strength Index (RSI) is a momentum oscillator. This indicator oscillates 
-        between 0 and 100. RSI is considered to be overbought when it is above 70 and oversold when it below 30.
-        '''
+        """
+        Return the original dataframe with a new colume which is the Relative Strength feature.
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in RS calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'RS+str(days)' colume
+        
+        Note
+        -------
+        RS (relative strength) is an indicator used for RSI (relative strenght index). The RS is a measure 
+        of the price trend of a stock compared to its benchmark index or sectoral index whereas Relative 
+        Strength Index (RSI) is a momentum oscillator. This indicator oscillates between 0 and 100. RSI 
+        is considered to be overbought when it is above 70 and oversold when it below 30.
+        """
+
         cp_data = self.copy()
 
         price_up_data = \
@@ -58,12 +80,33 @@ class MomentumIndicator(MAIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
+        """
+        Return the original dataframe with a new colume which is the Relative Strength Index feature.
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in RS calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'RSI+str(days)' colume
+        
+        Note
+        -------
         The relative strength index (RSI) is a momentum indicator used in technical analysis that measures 
         the magnitude of recent price changes to evaluate overbought or oversold conditions in the price of 
         a stock or other asset. The RSI is displayed as an oscillator (a line graph that moves between two 
         extremes) and can have a reading from 0 to 100. (Source: Investopedia)
-        '''
+        """
+
         cp_data = self.copy()
         cp_data_RS = MomentumIndicator(cp_data).RS(
             days=days, inplace=False, closing_price_col_name=closing_price_col_name)["RS"+str(days)]
@@ -80,11 +123,35 @@ class MomentumIndicator(MAIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
+        """
+        Return the original dataframe with a new colume which is the percentage price oscillator feature.
+
+        Parameters
+        ----------
+        first_period_EMA : int, default 12,
+            the first period for calculating EMA.
+        first_period_EMA : int, default 26,
+            the second period for calculating EMA.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'PPO+str(first_period_EMA)+'-'+str(second_period_EMA)' colume
+        
+        Note
+        -------
         The percentage price oscillator (PPO) is a technical momentum indicator that shows the relationship 
         between two moving averages in percentage terms. The moving averages are a 26-period and 12-period 
-        exponential moving average (EMA). But in this function, users can change the periods of 2 EMAs. (Source: Investopedia)
-        '''
+        exponential moving average (EMA). But in this function, users can change the periods of 2 EMAs. 
+        (Source: Investopedia)
+        """
+
         cp_data = self.copy()
         cp_data_first_EMA = MomentumIndicator(cp_data).price_EMA(
             days=first_period_EMA, inplace=False, closing_price_col_name=closing_price_col_name)["price_EMA"+str(first_period_EMA)]
@@ -105,13 +172,36 @@ class MomentumIndicator(MAIndicator):
         low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
-        '''
+        """
+        Return the original dataframe with a new colume which is the Directional Movement Index feature.
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in DX calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        high_price_col_name : str, default 'high'
+            the colume name of the high price feature.
+        low_price_col_name : str, default 'low'
+            the colume name of the low price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'DX+str(days)' colume
+        
+        Note
+        -------
         The Directional Movement Index (DX) is an intermediate result in calculating of the Average Directional 
         Index (ADX) that was developed by J. Welles Wilder to evaluate the strength of a trend and to define a 
         period of sideway trading. The Directional Movement index is based on the positive and negative Directional 
         indicators and is used to spot crossovers of positive and negative directional indicators - when 
         bullish/bearish change of power takes place. (Source: Market Volume)
-        '''
+        """
+
         cp_data = self.copy()
 
         cp_data["ATR"+str(days)] = MomentumIndicator(
@@ -134,7 +224,29 @@ class MomentumIndicator(MAIndicator):
         low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
-        '''
+        """
+        Return the original dataframe with a new colume which is the average directional index feature.
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in DX calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        high_price_col_name : str, default 'high'
+            the colume name of the high price feature.
+        low_price_col_name : str, default 'low'
+            the colume name of the low price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'ADX+str(days)' colume
+        
+        Note
+        -------
         The average directional index (ADX) is a technical analysis indicator used by some traders to 
         determine the strength of a trend.  The trend can be either up or down, and this is shown by 
         two accompanying indicators, the negative directional indicator (-DI) and the positive directional 
@@ -157,7 +269,8 @@ class MomentumIndicator(MAIndicator):
         13. First ADX = sum 14 periods of DX / 14.
         14. After that, ADX = ((prior ADX * 13) + current DX) / 14.
         (Source: Investopedia)
-        '''
+        """
+
         cp_data = self.copy()
 
         cp_data["DX"+str(days)] = MomentumIndicator(cp_data).DX(days=days, inplace=True,
@@ -185,12 +298,39 @@ class MomentumIndicator(MAIndicator):
         low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
-        '''
+        """
+        Return the original dataframe with a new colume which is the Balance of Power feature.
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in BOP calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        opening_price_col_name : str, default 'open'
+            the colume name of the opening price feature.
+        high_price_col_name : str, default 'high'
+            the colume name of the high price feature.
+        low_price_col_name : str, default 'low'
+            the colume name of the low price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'BOP+str(days)' colume
+        
+        Note
+        -------
         The Balance of Power (BOP) indicator uses price to measure buying and selling pressure. 
         It determines the strength of the buyers and sellers by looking at how strongly the price 
         has changed, rather than using volume. Zero-line crossovers of the BOP indicator can be 
         used as a signal for trend reversals. (Source: StockCharts)
-        '''
+        """
+
         cp_data = self.copy()
         cp_data["close_open"] = cp_data[closing_price_col_name] - \
             cp_data[opening_price_col_name]
@@ -213,10 +353,35 @@ class MomentumIndicator(MAIndicator):
         low_price_col_name: str = "low",
         dropna: bool = False
     ) -> DataFrame:
-        '''
+        """
+        Return the original dataframe with a new colume which is the Commodity Channel Index​ feature.
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in CCI calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        high_price_col_name : str, default 'high'
+            the colume name of the high price feature.
+        low_price_col_name : str, default 'low'
+            the colume name of the low price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'CCI+str(days)' colume
+        
+        Note
+        -------
         The Commodity Channel Index​ (CCI) is a momentum-based oscillator used to help determine 
         when an investment vehicle is reaching a condition of being overbought or oversold. (Source: Investopedia)
-        '''
+        """
+
         cp_data = self.copy()
         cp_data = MomentumIndicator(cp_data).typical_price(closing_price_col_name=closing_price_col_name,
                                                              high_price_col_name=high_price_col_name, low_price_col_name=low_price_col_name, inplace=True)
@@ -236,11 +401,34 @@ class MomentumIndicator(MAIndicator):
         closing_price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
-        '''
+        """
+        Return the original dataframe with a new colume which is the  moving average convergence divergence feature.
+
+        Parameters
+        ----------
+        first_period_EMA : int, default 12,
+            the first period for calculating EMA.
+        first_period_EMA : int, default 26,
+            the second period for calculating EMA.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        closing_price_col_name : str, default 'close'
+            the colume name of the closing price feature.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including 'MACD+str(first_period_EMA)+'-'+str(second_period_EMA)' colume
+        
+        Note
+        -------
         Moving average convergence divergence (MACD) is a trend-following momentum indicator that shows 
         the relationship between two moving averages of a security’s price. The MACD is calculated by 
         subtracting the 26-period exponential moving average (EMA) from the 12-period EMA. (Source: Investopedia)
-        '''
+        """
+
         cp_data = self.copy()
 
         cp_data = MomentumIndicator(cp_data).price_EMA(

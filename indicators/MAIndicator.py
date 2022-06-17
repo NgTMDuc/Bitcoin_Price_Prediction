@@ -30,10 +30,13 @@ class MAIndicator(AdditionalIndicator):
         dropna: bool = False
     ) -> DataFrame:
         """
-        Return the price difference of the current row and the previous row
+        Return the original dataframe with a new colume which is the Smoothed Moving Average of 
+        the price in n days from the current day
 
         Parameters
         ----------
+        days : int
+            the number of days included in SMA calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
         closing_price_col_name : str, default 'close'
@@ -67,6 +70,8 @@ class MAIndicator(AdditionalIndicator):
 
         Parameters
         ----------
+        days : int
+            the number of days included in price's EMA calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
         closing_price_col_name : str, default 'close'
@@ -112,6 +117,8 @@ class MAIndicator(AdditionalIndicator):
 
         Parameters
         ----------
+        days : int
+            the number of days included in price's WMA calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
         closing_price_col_name : str, default 'close'

@@ -29,9 +29,27 @@ class VolumeIndicator(MomentumIndicator):
         volume_col_name: str="volume",
         dropna: bool=False
     ) -> DataFrame:
-        '''
-        Smoothed Moving Average of volume in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the Smoothed Moving Average of 
+        the volume in n days from the current day
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in SMA calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        volume_col_name : str, default 'volume'
+            the name of the volume colume.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including '"volume_SMA"+str(days)' colume
+        """
+
         cp_data = self.copy()
         cp_data["volume_SMA"+str(days)] = cp_data[volume_col_name].rolling(days).mean()
         
@@ -45,9 +63,27 @@ class VolumeIndicator(MomentumIndicator):
         volume_col_name: str="volume",
         dropna: bool=False
     ) -> DataFrame:
-        '''
-        Exponential Moving Average of volume in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the Exponential Moving Average of 
+        the volume in n days from the current day
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in SMA calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        volume_col_name : str, default 'volume'
+            the name of the volume colume.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including '"volume_EMA"+str(days)' colume
+        """
+
         cp_data = self.copy()
 
         tmp_volume_SMA_data = cp_data[volume_col_name].rolling(days).mean()
@@ -73,9 +109,27 @@ class VolumeIndicator(MomentumIndicator):
         volume_col_name: str="volume",
         dropna: bool=False
     ) -> DataFrame:
-        '''
-        Weighted Moving Average of volume in n days from the current day
-        '''
+        """
+        Return the original dataframe with a new colume which is the Weighted Moving Average of 
+        the volume in n days from the current day
+
+        Parameters
+        ----------
+        days : int
+            the number of days included in SMA calculation.
+        inplace : bool, default False
+            whether to modify the DataFrame rather than creating a new one.
+        volume_col_name : str, default 'volume'
+            the name of the volume colume.
+        dropna : bool, default False
+            whether to drop the nan value in the DataFrame or not.
+
+        Returns
+        -------
+        DataFrame
+            a dataframe including '"volume_WMA"+str(days)' colume
+        """
+
         cp_data = self.copy()
         multipliers = np.array([day+1 for day in range(days)])
         lst = [pd.NA for _ in range(len(cp_data))]
