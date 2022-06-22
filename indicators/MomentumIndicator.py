@@ -28,7 +28,7 @@ class MomentumIndicator(MAIndicator):
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -40,15 +40,15 @@ class MomentumIndicator(MAIndicator):
             the number of days included in RS calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
-        DataFrame
-            a dataframe including 'RS+str(days)' colume
+        DataFrame1
+            a dataframe including '[price_col_name]_RS[days]' colume
         
         Note
         -------
@@ -62,22 +62,22 @@ class MomentumIndicator(MAIndicator):
 
         price_up_data = \
             MomentumIndicator(cp_data).price_up_SMA(days=days, inplace=False,
-                                                     closing_price_col_name=closing_price_col_name)["price_up_SMA"+str(days)]
+                                                     price_col_name=price_col_name)[price_col_name+"_price_up_SMA"+str(days)]
         price_down_data = \
             MomentumIndicator(cp_data).price_down_SMA(days=days, inplace=False,
-                                                       closing_price_col_name=closing_price_col_name)["price_down_SMA"+str(days)]
+                                                       price_col_name=price_col_name)[price_col_name+"_price_down_SMA"+str(days)]
 
         # 1e-10 is used for avoiding zero division
-        cp_data["RS"+str(days)] = price_up_data / (1e-10 - price_down_data)
+        cp_data[price_col_name+"_RS"+str(days)] = price_up_data / (1e-10 - price_down_data)
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="RS"+str(days))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_RS"+str(days))
 
 
     def RSI(
         self,
         days: int,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -89,15 +89,15 @@ class MomentumIndicator(MAIndicator):
             the number of days included in RS calculation.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'RSI+str(days)' colume
+            a dataframe including '[price_col_name]_RSI[days]' colume
         
         Note
         -------
@@ -109,10 +109,10 @@ class MomentumIndicator(MAIndicator):
 
         cp_data = self.copy()
         cp_data_RS = MomentumIndicator(cp_data).RS(
-            days=days, inplace=False, closing_price_col_name=closing_price_col_name)["RS"+str(days)]
-        cp_data["RSI"+str(days)] = 100 - 100/(1 + cp_data_RS.to_numpy())
+            days=days, inplace=False, price_col_name=price_col_name)[price_col_name+"_RS"+str(days)]
+        cp_data[price_col_name+"_RSI"+str(days)] = 100 - 100/(1 + cp_data_RS.to_numpy())
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="RSI"+str(days))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_RSI"+str(days))
 
 
     def PPO(
@@ -120,7 +120,7 @@ class MomentumIndicator(MAIndicator):
         first_period_EMA: int = 12,
         second_period_EMA: int = 26,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -134,15 +134,15 @@ class MomentumIndicator(MAIndicator):
             the second period for calculating EMA.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'PPO+str(first_period_EMA)+'-'+str(second_period_EMA)' colume
+            a dataframe including '[price_col_name]_PPO[first_period_EMA]-[second_period_EMA]' colume
         
         Note
         -------
@@ -154,14 +154,14 @@ class MomentumIndicator(MAIndicator):
 
         cp_data = self.copy()
         cp_data_first_EMA = MomentumIndicator(cp_data).price_EMA(
-            days=first_period_EMA, inplace=False, closing_price_col_name=closing_price_col_name)["price_EMA"+str(first_period_EMA)]
+            days=first_period_EMA, inplace=False, price_col_name=price_col_name)[price_col_name+"_price_EMA"+str(first_period_EMA)]
         cp_data_second_EMA = MomentumIndicator(cp_data).price_EMA(
-            days=second_period_EMA, inplace=False, closing_price_col_name=closing_price_col_name)["price_EMA"+str(second_period_EMA)]
-        cp_data["PPO%s-%s" % (str(first_period_EMA), str(second_period_EMA))] = \
+            days=second_period_EMA, inplace=False, price_col_name=price_col_name)[price_col_name+"_price_EMA"+str(second_period_EMA)]
+        cp_data[price_col_name+"_PPO%s-%s" % (str(first_period_EMA), str(second_period_EMA))] = \
             100 * (cp_data_first_EMA - cp_data_second_EMA) / \
             cp_data_second_EMA
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="PPO%s-%s" % (str(first_period_EMA), str(second_period_EMA)))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_PPO%s-%s" % (str(first_period_EMA), str(second_period_EMA)))
 
 
     def DX(
@@ -398,7 +398,7 @@ class MomentumIndicator(MAIndicator):
         first_period_EMA: int = 12,
         second_period_EMA: int = 26,
         inplace: bool = False,
-        closing_price_col_name: str = "close",
+        price_col_name: str = "close",
         dropna: bool = False
     ) -> DataFrame:
         """
@@ -412,15 +412,15 @@ class MomentumIndicator(MAIndicator):
             the second period for calculating EMA.
         inplace : bool, default False
             whether to modify the DataFrame rather than creating a new one.
-        closing_price_col_name : str, default 'close'
-            the colume name of the closing price feature.
+        price_col_name : str, default 'close'
+            the colume name of the price feature to be calculated.
         dropna : bool, default False
             whether to drop the nan value in the DataFrame or not.
 
         Returns
         -------
         DataFrame
-            a dataframe including 'MACD+str(first_period_EMA)+'-'+str(second_period_EMA)' colume
+            a dataframe including '[price_col_name]_MACD[first_period_EMA]-[second_period_EMA]' colume
         
         Note
         -------
@@ -432,9 +432,9 @@ class MomentumIndicator(MAIndicator):
         cp_data = self.copy()
 
         cp_data = MomentumIndicator(cp_data).price_EMA(
-            days=12, closing_price_col_name=closing_price_col_name, inplace=True)
+            days=12, price_col_name=price_col_name, inplace=True)
 
-        cp_data["MACD"+str(first_period_EMA)+'-'+str(second_period_EMA)] = MomentumIndicator(cp_data).price_EMA(days=first_period_EMA, closing_price_col_name=closing_price_col_name, inplace=True)[
-            "price_EMA"+str(first_period_EMA)] - MomentumIndicator(cp_data).price_EMA(days=second_period_EMA, closing_price_col_name=closing_price_col_name, inplace=True)["price_EMA"+str(second_period_EMA)]
+        cp_data[price_col_name+"_MACD"+str(first_period_EMA)+'-'+str(second_period_EMA)] = MomentumIndicator(cp_data).price_EMA(days=first_period_EMA, price_col_name=price_col_name, inplace=True)[
+            price_col_name+"_price_EMA"+str(first_period_EMA)] - MomentumIndicator(cp_data).price_EMA(days=second_period_EMA, price_col_name=price_col_name, inplace=True)[price_col_name+"_price_EMA"+str(second_period_EMA)]
 
-        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name="MACD"+str(first_period_EMA)+'-'+str(second_period_EMA))
+        return self.return_df(cp_data=cp_data, dropna=dropna, inplace=inplace, drop_col_name=price_col_name+"_MACD"+str(first_period_EMA)+'-'+str(second_period_EMA))
